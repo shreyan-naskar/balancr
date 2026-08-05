@@ -10,13 +10,12 @@ find_package(Protobuf REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 
 add_library(lb_lib
-    src/core/serve
-    r.cpp
+    src/core/server.cpp
 
-    proto/loadBalancer.pb.cc
-    proto/loadBalancer.grpc.pb.cc
-    proto/adminService.pb.cc
-    proto/adminService.grpc.pb.cc
+    proto/load_balancer.pb.cc
+    proto/load_balancer.grpc.pb.cc
+    proto/admin_service.pb.cc
+    proto/admin_service.grpc.pb.cc
 )
 
 target_include_directories(lb_lib
