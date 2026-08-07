@@ -24,6 +24,8 @@ add_library(lb_lib
     include/core/load_balancer.hpp
     src/core/load_balancer.cpp
     examples/backend_server.cpp
+    include/api/admin_service.hpp
+    src/api/admin_service.cpp
 )
 
 target_include_directories(lb_lib
