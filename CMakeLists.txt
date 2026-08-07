@@ -16,6 +16,8 @@ add_library(lb_lib
     proto/load_balancer.grpc.pb.cc
     proto/admin_service.pb.cc
     proto/admin_service.grpc.pb.cc
+    include/core/server_manager.hpp
+    src/core/server_manager.cpp
 )
 
 target_include_directories(lb_lib
