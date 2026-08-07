@@ -18,6 +18,12 @@ add_library(lb_lib
     proto/admin_service.grpc.pb.cc
     include/core/server_manager.hpp
     src/core/server_manager.cpp
+    include/strategies/strategy.hpp
+    include/strategies/round_robin.hpp
+    src/strategies/round_robin.cpp
+    include/core/load_balancer.hpp
+    src/core/load_balancer.cpp
+    examples/backend_server.cpp
 )
 
 target_include_directories(lb_lib

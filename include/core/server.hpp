@@ -40,7 +40,7 @@ public:
     return request_count_.load();
   }
 
-  void incrementRequstCount() {
+  void incrementRequestCount() {
     request_count_.fetch_add(1);
   }
 
