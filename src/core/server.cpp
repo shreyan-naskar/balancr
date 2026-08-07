@@ -31,7 +31,7 @@ void Server::setCPUUsage(double usage) {cpu_usage_ = usage;}
 
 double Server::getMemoryUsage() const {return memory_usage_;}
 
-void Server::setCPUUsage(double usage) {memory_usage_ = usage;}
+void Server::setMemoryUsage(double usage) {memory_usage_ = usage;}
 
 chrono::system_clock::time_point Server::getLastHealthCheckTime() const {return last_health_check_time_;}
 
