@@ -26,6 +26,7 @@ add_library(lb_lib
     examples/backend_server.cpp
     include/api/admin_service.hpp
     src/api/admin_service.cpp
+    src/main.cpp
 )
 
 target_include_directories(lb_lib
