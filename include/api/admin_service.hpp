@@ -94,6 +94,30 @@ public:
         google::protobuf::Empty* response
     ) override;
 
+    // Store health and resource updates reported by the health checker.
+    grpc::Status UpdateServerHealth(
+        grpc::ServerContext* context,
+        const admin::UpdateServerHealthRequests* request,
+        google::protobuf::Empty* response
+    ) override;
+
+
+    // Return current server-count limits for autoscaling decisions.
+    grpc::Status GetServerConstraints(
+        grpc::ServerContext* context,
+        const google::protobuf::Empty* request,
+        admin::ServerConstraintsResponse* response
+    ) override;
+
+
+    // Return metrics for this process. Backend servers override this
+    // separately; the load balancer returns neutral metrics.
+    grpc::Status GetMetrics(
+        grpc::ServerContext* context,
+        const google::protobuf::Empty* request,
+        admin::MetricsResponse* response
+    ) override;
+
 
 private:
     // Shared server manager used by both administrative actions and

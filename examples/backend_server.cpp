@@ -4,8 +4,10 @@
 
 // gRPC server classes.
 #include <grpcpp/grpcpp.h>
+#include <google/protobuf/empty.pb.h>
 
 // Generated service, Request, and Response classes.
+#include "proto/admin_service.grpc.pb.h"
 #include "proto/load_balancer.grpc.pb.h"
 
 
@@ -78,6 +80,31 @@ private:
     int port_;
 };
 
+class BackendAdminService final
+    : public admin::AdminService::Service {
+public:
+    explicit BackendAdminService(int port)
+        : port_(port) {
+    }
+
+    grpc::Status GetMetrics(
+        grpc::ServerContext* context,
+        const google::protobuf::Empty* request,
+        admin::MetricsResponse* response
+    ) override {
+        (void)context;
+        (void)request;
+
+        response->set_cpu_usage(45.0 + static_cast<double>(port_ % 10));
+        response->set_memory_usage(25.0);
+
+        return grpc::Status::OK;
+    }
+
+private:
+    int port_;
+};
+
 
 // Program entry point.
 //
@@ -130,6 +157,7 @@ int main(int argc, char** argv) {
 
     // Create one service instance for this backend process.
     BackendServer service(port);
+    BackendAdminService admin_service(port);
 
 
     // Configure and start the gRPC server.
@@ -142,6 +170,7 @@ int main(int argc, char** argv) {
 
     // Register the object that implements HandleRequest().
     builder.RegisterService(&service);
+    builder.RegisterService(&admin_service);
 
 
     // BuildAndStart() returns nullptr if startup fails, for example

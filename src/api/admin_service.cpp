@@ -1,5 +1,7 @@
 #include "api/admin_service.hpp"
 
+#include <cstdint>
+
 
 // Store a shared reference to the same ServerManager used by the
 // LoadBalancerService.
@@ -145,5 +147,65 @@ grpc::Status AdminService::RemoveServer(
 
 
     // A successful RemoveServer RPC returns an empty response body.
+    return grpc::Status::OK;
+}
+
+
+grpc::Status AdminService::UpdateServerHealth(
+    grpc::ServerContext* context,
+    const admin::UpdateServerHealthRequests* request,
+    google::protobuf::Empty* response
+) {
+    (void)context;
+    (void)response;
+
+    for (const auto& update : request->updates()) {
+        server_manager_->updateServerHealth(
+            update.id(),
+            update.ishealthy(),
+            update.cpu_usage(),
+            update.memory_usage()
+        );
+    }
+
+    return grpc::Status::OK;
+}
+
+
+grpc::Status AdminService::GetServerConstraints(
+    grpc::ServerContext* context,
+    const google::protobuf::Empty* request,
+    admin::ServerConstraintsResponse* response
+) {
+    (void)context;
+    (void)request;
+
+    const auto stats = server_manager_->getServerStats();
+
+    response->set_min_servers(
+        static_cast<std::uint32_t>(stats.min_servers)
+    );
+    response->set_max_servers(
+        static_cast<std::uint32_t>(stats.max_servers)
+    );
+    response->set_active_servers(
+        static_cast<std::uint32_t>(stats.active_servers)
+    );
+
+    return grpc::Status::OK;
+}
+
+
+grpc::Status AdminService::GetMetrics(
+    grpc::ServerContext* context,
+    const google::protobuf::Empty* request,
+    admin::MetricsResponse* response
+) {
+    (void)context;
+    (void)request;
+
+    response->set_cpu_usage(0.0);
+    response->set_memory_usage(0.0);
+
     return grpc::Status::OK;
 }

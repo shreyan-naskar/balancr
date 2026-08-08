@@ -47,9 +47,11 @@ target_link_libraries(load_balancer
 )
 
 add_executable(backend_server
-    examples/backend_server.cpp
+    examples/backend_server_2.cpp
     proto/load_balancer.pb.cc
     proto/load_balancer.grpc.pb.cc
+    proto/admin_service.pb.cc
+    proto/admin_service.grpc.pb.cc
 )
 
 target_include_directories(backend_server
@@ -95,6 +97,25 @@ target_include_directories(admin_client
 )
 
 target_link_libraries(admin_client
+    PRIVATE
+        protobuf::libprotobuf
+        gRPC::grpc++
+)
+
+add_executable(health_checker
+    src/monitoring/health_checker.cpp
+    proto/admin_service.pb.cc
+    proto/admin_service.grpc.pb.cc
+)
+
+target_include_directories(health_checker
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/proto
+)
+
+target_link_libraries(health_checker
     PRIVATE
         protobuf::libprotobuf
         gRPC::grpc++
