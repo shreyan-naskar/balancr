@@ -17,6 +17,7 @@ add_library(lb_lib
     src/core/process/linux_process.cpp
     src/api/admin_service.cpp
     src/strategies/round_robin.cpp
+    src/strategies/consistent_hashing.cpp
 
     proto/load_balancer.pb.cc
     proto/load_balancer.grpc.pb.cc

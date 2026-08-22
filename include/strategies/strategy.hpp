@@ -19,9 +19,10 @@
 // Every strategy receives the currently active backend servers and
 // returns one selected server.
 //
-// Current strategy:
+// Current strategies:
 //
 //     RoundRobinStrategy
+//     ConsistentHashingStrategy
 //
 // Possible future strategies:
 //
